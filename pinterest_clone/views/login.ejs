@@ -16,6 +16,11 @@
           class="img1"
         />
         <p class="header">Log in to see more</p>
+        <!-- to show flash error incase of incorrect credentials -->
+        <%if(error.length>0)%>
+        <p class="error"><%= error %></p>
+        
+        
         <form action="/login" method="post">
           <input
             type="text"

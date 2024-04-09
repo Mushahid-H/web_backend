@@ -11,7 +11,7 @@ body {
   padding: 20px;
 }
 
-.cards {
+.cardss {
   background-color: rgb(23, 22, 22);
   border-radius: 5px;
   padding: 20px;
@@ -64,7 +64,30 @@ body {
   background-color: #d10c0c;
 }
 
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: start;
+}
+.card {
+  cursor: pointer;
+}
 .card:hover {
   opacity: 0.95;
+  box-shadow: 0 0 10px #fff;
+}
+label {
+  font-size: 20px;
+  color: white;
+}
+.input {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 5px;
+}
+.input:hover {
   box-shadow: 0 0 10px #fff;
 }

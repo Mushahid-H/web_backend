@@ -14,38 +14,55 @@
   </head>
   <body style="background-color: rgb(23, 22, 22)">
     <div class="containers">
-      <div class="cards">
+      <div class="cardss">
         <div class="profile-picture">
           <img
             src="https://i.pinimg.com/280x280_RS/fe/7d/ee/fe7deef834e1fafe56f8023ced803ca9.jpg"
             alt="Profile Picture"
           />
         </div>
-        <h2 class="name">Full name</h2>
-        <h3 class="username">@username</h3>
-        <p class="tagline">tagline</p>
-        <p class="description">description.</p>
-        <a href="#" class="button">Accouont Settings</a>
+        <h2 class="name"><%= user.full_name%></h2>
+        <h3 class="username">@<%= user.username%></h3>
+        <p class="tagline">Lorem ipsum dolor sit amet.</p>
+        <p class="description">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis.
+        </p>
+        <a href="/logout" class="button">Logout</a>
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <label for="">Upload Images</label>
+          </br>
+          <input class="input" type="file" name="file" />
+          <input class="input" type="text" name="fileCaption" placeholder="image caption"/> 
+          </br> 
+          <input class="input" type="submit" value="Upload" />
+        </form>
       </div>
     </div>
     <div class="container">
-      <div
-        class="card"
-        style="
-          width: 18rem;
-          color: rgb(242, 245, 248);
-          background-color: rgb(23, 20, 20);
-        "
-      >
-        <img
-          src="https://oriontravelblog.com/wp-content/uploads/2019/08/IMG_6310.jpg"
-          class="card-img-top"
-          alt="..."
-        />
-        <div class="card-body">
-          <h5 class="card-title">All Designs</h5>
-        </div>
+      <div class="cards flex">
+        <%user.posts.forEach((post) => {%>
+            <div
+            class="card"
+            style="
+              width: 18rem;
+              color: rgb(242, 245, 248);
+              background-color: rgb(23, 20, 20);
+            "
+          >
+            <img
+              src="/images/uploads/<%= post.image %>"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <h5 class="card-title"><%= post.title%></h5>
+            </div>
+          </div>
+          
+        <%})%>
       </div>
+     
     </div>
 
     <script
