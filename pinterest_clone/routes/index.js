@@ -15,10 +15,27 @@ router.get('/', function (req, res, next) {
 router.get('/login', function (req, res, next) {
   res.render('login', { error: req.flash('error') })
 })
-router.get('/feed', function (req, res, next) {
-  res.render('feed')
+router.get('/feed', isLoggedIn, async function (req, res, next) {
+  const user = await userModel.findOne({ username: req.session.passport.user })
+
+  const posts = await postModel.find().populate('user')
+
+  res.render('feed', { user, posts })
 })
 
+router.post(
+  '/proUpload',
+  isLoggedIn,
+  upload.single('image'),
+  async function (req, res, next) {
+    const user = await userModel.findOne({
+      username: req.session.passport.user,
+    })
+    user.dp = req.file.filename
+    await user.save()
+    res.redirect('/profile')
+  }
+)
 router.get('/profile', isLoggedIn, async function (req, res) {
   const user = await userModel
     .findOne({
@@ -27,6 +44,15 @@ router.get('/profile', isLoggedIn, async function (req, res) {
     .populate('posts')
 
   res.render('profile', { user })
+})
+router.get('/add', isLoggedIn, async function (req, res) {
+  const user = await userModel
+    .findOne({
+      username: req.session.passport.user,
+    })
+    .populate('posts')
+
+  res.render('addPost', { user })
 })
 
 router.post('/register', function (req, res) {
@@ -86,6 +112,7 @@ router.post(
     const post = await postModel.create({
       title: req.body.fileCaption,
       image: req.file.filename,
+      description: req.file.disc,
       user: user._id,
     })
 

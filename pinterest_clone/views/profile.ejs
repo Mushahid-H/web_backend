@@ -10,16 +10,47 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Profile</title>
   </head>
   <body style="background-color: rgb(23, 22, 22)">
+    <div
+      class="w-full h-full px-10 py-3 flex justify-between bg-zinc-800 text-white"
+    >
+      <h3>Pinterest</h3>
+      <div class="flex gap-10 items-center">
+        <a href="/profile">Profile</a>
+        <a href="/feed">Feed</a>
+        <a class="px-3 py-2 bg-red-700 text-white rounded-lg" href="/logout"
+          >Logout</a
+        >
+      </div>
+    </div>
+
     <div class="containers">
       <div class="cardss">
-        <div class="profile-picture">
-          <img
-            src="https://i.pinimg.com/280x280_RS/fe/7d/ee/fe7deef834e1fafe56f8023ced803ca9.jpg"
-            alt="Profile Picture"
-          />
+        <div class="profile-picture relative">
+          <form
+            hidden
+            id="uploadForm"
+            action="/proUpload"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <input type="file" name="image" id="file" class="inputfile" />
+          </form>
+
+          <span
+            id="uploadIcon"
+            class="h-8 w-8 bg-white absolute bottom-2 cursor-pointer rounded-full flex right-5 items-center justify-center"
+          >
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </span>
+          <img src="/images/uploads/<%= user.dp%>" alt="Profile Picture" />
         </div>
         <h2 class="name"><%= user.full_name%></h2>
         <h3 class="username">@<%= user.username%></h3>
@@ -27,42 +58,39 @@
         <p class="description">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis.
         </p>
-        <a href="/logout" class="button">Logout</a>
 
-        <form action="/upload" method="post" enctype="multipart/form-data">
-          <label for="">Upload Images</label>
-          </br>
-          <input class="input" type="file" name="file" />
-          <input class="input" type="text" name="fileCaption" placeholder="image caption"/> 
-          </br> 
-          <input class="input" type="submit" value="Upload" />
-        </form>
+        <div class="w-full mt-3">
+          <a
+            class="bg-red-700 w-25 justify-center py-2 rounded text-white px-3"
+            href="/add"
+            >Add Post</a
+          >
+        </div>
       </div>
     </div>
     <div class="container">
       <div class="cards flex">
         <%user.posts.forEach((post) => {%>
-            <div
-            class="card"
-            style="
-              width: 18rem;
-              color: rgb(242, 245, 248);
-              background-color: rgb(23, 20, 20);
-            "
-          >
-            <img
-              src="/images/uploads/<%= post.image %>"
-              class="card-img-top"
-              alt="..."
-            />
-            <div class="card-body">
-              <h5 class="card-title"><%= post.title%></h5>
-            </div>
+        <div
+          class="card"
+          style="
+            width: 18rem;
+            color: rgb(242, 245, 248);
+            background-color: rgb(23, 20, 20);
+          "
+        >
+          <img
+            src="/images/uploads/<%= post.image %>"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body rounded">
+            <h5 class="card-title"><%= post.title%></h5>
           </div>
-          
+        </div>
+
         <%})%>
       </div>
-     
     </div>
 
     <script
@@ -70,5 +98,16 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script>
+      document.querySelector('#uploadIcon').addEventListener('click', () => {
+        document.querySelector('#uploadForm input').click()
+      })
+
+      document
+        .querySelector('#uploadForm input')
+        .addEventListener('change', () => {
+          document.querySelector('#uploadForm').submit()
+        })
+    </script>
   </body>
 </html>
