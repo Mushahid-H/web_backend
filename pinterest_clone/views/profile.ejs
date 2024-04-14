@@ -72,13 +72,22 @@
       <div class="cards flex">
         <%user.posts.forEach((post) => {%>
         <div
-          class="card"
+          class="card relative"
           style="
             width: 18rem;
             color: rgb(242, 245, 248);
             background-color: rgb(23, 20, 20);
           "
         >
+          <span
+            class="bg-black rounded-full h-8 w-8 absolute top-0 right-2 flex justify-center items-center"
+          >
+            <a href="/delete/<%= post._id%>">
+              <i
+                class="fa fa-trash-o text-2xl hover:text-red-700 transition"
+              ></i>
+            </a>
+          </span>
           <img
             src="/images/uploads/<%= post.image %>"
             class="card-img-top"

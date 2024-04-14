@@ -54,7 +54,36 @@ router.get('/add', isLoggedIn, async function (req, res) {
 
   res.render('addPost', { user })
 })
+router.get('/delete/:postId', isLoggedIn, async function (req, res) {
+  try {
+    const postId = req.params.postId
+    const user = await userModel
+      .findOne({
+        username: req.session.passport.user,
+      })
+      .populate('posts')
 
+    const postToDelete = user.posts.find(
+      (post) => post._id.toString() === postId
+    )
+
+    if (!postToDelete) {
+      return res.status(404).send('Post not found')
+    }
+
+    // Delete the post from the Post model
+    await postModel.findByIdAndDelete(postToDelete._id)
+
+    // Remove the post from the user's posts array
+    user.posts = user.posts.filter((post) => post._id.toString() !== postId)
+    await user.save()
+
+    res.redirect('/profile') // Redirect to profile page or any other appropriate page
+  } catch (error) {
+    console.error('Error deleting post:', error)
+    res.status(500).send('Internal server error')
+  }
+})
 router.post('/register', function (req, res) {
   const { username, email, full_name } = req.body
 
