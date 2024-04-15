@@ -79,3 +79,13 @@ app.use(function errorHandler(err, req, res, next) {
 })
 
 app.listen(3000)
+
+// in every project we have to do all the earlier work to set up the server and the routes and the middlewares
+// Now to avoid this we can use express generator
+// express generator is a tool that generates a boilerplate code for an express project, including file structure, routes, middlewares, etc
+// to install it we use the command
+// npm install express-generator -g
+// to generate a new project we use the command
+// express project_name --view=ejs
+// to install the dependencies we use the command
+// npm install
